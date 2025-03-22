@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>樂遷搬家 - 線上估價系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Tippy.js 相關引用 -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/dist/tippy.css">
+</head>
+<body class="bg-gray-50">
+    <!-- 頂部公司名稱區塊 -->
+    <div class="bg-white shadow-sm border-b">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-bold text-blue-600">
+                    樂遷搬家
+                    <span class="text-sm font-normal text-gray-500 ml-2">線上估價系統</span>
+                </h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-8 max-w-2xl">
+        <!-- 添加頁面頂部的插圖 -->
+        <div class="flex justify-center mb-8 text-blue-600">
+            <i class="fas fa-truck-moving text-8xl"></i>
+        </div>
+
+        <h1 class="text-3xl font-bold mb-8 text-center flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 mr-2 text-blue-600">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+            </svg>
+            搬家服務報價估算
+        </h1>
+        
+        <form id="quoteForm" class="space-y-6 bg-white p-6 rounded-lg shadow">
+            <!-- 搬家日期 -->
+            <div class="space-y-2">
+                <label class="block text-sm font-medium flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-blue-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v11.25m-18 0A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75m-18 0v-7.5A2.25 2.25 0 0 1 5.25 9h13.5A2.25 2.25 0 0 1 21 11.25v7.5" />
+                    </svg>
+                    預約搬家日期：
+                </label>
+                <div class="grid grid-cols-2 gap-4">
+                    <input type="date" class="w-full p-2 border rounded">
+                    <input type="time" class="w-full p-2 border rounded">
+                </div>
+            </div>
+
+            <!-- 搬家分類 -->
+            <div class="space-y-2">
+                <label class="block text-sm font-medium flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-blue-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+                    </svg>
+                    搬家分類：
+                    <i class="fas fa-info-circle ml-1 text-blue-500 cursor-help" 
+                       data-tippy-content="學生搬家適合單人房間，小家庭搬家適合2-3人的家庭，自選車種可依需求選擇"></i>
+                </label>
+                <select id="moveType" class="w-full p-2 border rounded" required>
+                    <option value="">請選擇搬家分類</option>
+                    <option value="student">學生搬家 ($1,500-$2,000)</option>
+                    <option value="family">小家庭搬家 ($2,800-$3,300)</option>
+                    <option value="custom">自選車種搬家</option>
+                </select>
+            </div>
+
+            <!-- 搬出地址 -->
+            <div class="space-y-2">
+                <label class="block text-sm font-medium flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-blue-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                    </svg>
+                    搬出地址：
+                </label>
+                <input type="text" class="w-full p-2 border rounded" required>
+                <div class="flex gap-4 items-center">
+                    <div class="flex-1">
+                        <label class="block text-sm font-medium flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-blue-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" />
+                            </svg>
+                            樓層：
+                            <i class="fas fa-info-circle ml-1 text-blue-500 cursor-help" 
+                               data-tippy-content="無電梯每樓層加收 $300，有電梯免加收"></i>
+                        </label>
+                        <input type="number" name="fromFloor" min="1" class="w-full p-2 border rounded" required>
+                    </div>
+                    <label class="flex items-center">
+                        <input type="checkbox" class="mr-2 h-4 w-4" name="fromElevator">
+                        <span class="text-sm flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-1 text-blue-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
+                            </svg>
+                            有電梯
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 搬入地址 -->
+            <div class="space-y-2">
+                <label class="block text-sm font-medium flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-blue-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
+                    </svg>
+                    搬入地址：
+                </label>
+                <input type="text" class="w-full p-2 border rounded" required>
+                <div class="flex gap-4 items-center">
+                    <div class="flex-1">
+                        <label class="block text-sm font-medium flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-blue-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205 3 1m1.5.5-1.5-.5M6.75 7.364V3h-3v18m3-13.636 10.5-3.819" />
+                            </svg>
+                            樓層：
+                            <i class="fas fa-info-circle ml-1 text-blue-500 cursor-help" 
+                               data-tippy-content="無電梯每樓層加收 $300，有電梯免加收"></i>
+                        </label>
+                        <input type="number" name="toFloor" min="1" class="w-full p-2 border rounded" required>
+                    </div>
+                    <label class="flex items-center">
+                        <input type="checkbox" class="mr-2 h-4 w-4" name="toElevator">
+                        <span class="text-sm flex items-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-1 text-blue-600">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0 1 10.5 3h6a2.25 2.25 0 0 1 2.25 2.25v13.5A2.25 2.25 0 0 1 16.5 21h-6a2.25 2.25 0 0 1-2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H2.25" />
+                            </svg>
+                            有電梯
+                        </span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 修改車種選擇區塊 -->
+            <div class="space-y-2" id="truckSelection" style="display: none;">
+                <label class="block text-sm font-medium flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 mr-2 text-blue-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 0 1-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 0 1-3 0m3 0a1.5 1.5 0 0 0-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 0 0-3.213-9.193 2.056 2.056 0 0 0-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 0 0-10.026 0 1.106 1.106 0 0 0-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+                    </svg>
+                    車種選擇：
+                </label>
+                <select id="truckType" class="w-full p-2 border rounded">
+                    <option value="">請選擇車種</option>
+                    <option value="1.75">1.75噸貨車 ($1,500-$2,000)</option>
+                    <option value="3.5">3.5噸貨車 ($2,800-$3,300)</option>
+                    <option value="4">4噸貨車 ($5,500-$7,000)</option>
+                    <option value="4.5">4.5噸貨車 ($7,000-$8,500)</option>
+                    <option value="5">5噸貨車 ($14,000-$17,500)</option>
+                </select>
+            </div>
+
+            <!-- 步行距離 -->
+            <div class="space-y-2">
+                <label class="block text-sm font-medium flex items-center">
+                    步行距離（公尺）：
+                    <i class="fas fa-info-circle ml-1 text-blue-500 cursor-help" 
+                       data-tippy-content="超過 20 公尺，每增加 20 公尺加收 $500"></i>
+                </label>
+                <input type="number" name="walkingDistance" min="0" step="20" class="w-full p-2 border rounded">
+            </div>
+
+            <!-- 額外服務 -->
+            <div class="space-y-2">
+                <label class="block text-sm font-medium">額外服務：</label>
+                <div class="space-y-2">
+                    <label class="flex items-center">
+                        <input type="checkbox" class="mr-2 h-4 w-4" name="additionalServices" value="furniture">
+                        <span>家具拆裝 ($500-$6,000/件)</span>
+                        <i class="fas fa-info-circle ml-1 text-blue-500 cursor-help" 
+                           data-tippy-content="包括床架、衣櫃等大型家具的拆解與組裝，依家具大小與複雜度計價"></i>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" class="mr-2 h-4 w-4" name="additionalServices" value="packing">
+                        <span>打包服務 ($3,000-$10,000/車)</span>
+                        <i class="fas fa-info-circle ml-1 text-blue-500 cursor-help" 
+                           data-tippy-content="專業打包服務包含紙箱、氣泡布等包材，依物品數量與種類計價"></i>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" class="mr-2 h-4 w-4" name="additionalServices" value="garbage">
+                        <span>垃圾清運 ($8,000-$15,000/車)</span>
+                        <i class="fas fa-info-circle ml-1 text-blue-500 cursor-help" 
+                           data-tippy-content="協助清運舊家具、廢棄物等，依垃圾數量與種類計價"></i>
+                    </label>
+                    <label class="flex items-center">
+                        <input type="checkbox" class="mr-2 h-4 w-4" name="additionalServices" value="crane">
+                        <span>吊車服務 ($3,000起/小時)</span>
+                        <i class="fas fa-info-circle ml-1 text-blue-500 cursor-help" 
+                           data-tippy-content="需要使用吊車搬運的情況，例如大型家具無法通過樓梯，依使用時間計價"></i>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 預估費用顯示 -->
+            <div class="mt-8 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <h2 class="text-xl font-bold flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 mr-2 text-blue-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                    預估費用：
+                    <span id="estimatedPrice" class="text-blue-600">$0 - $0</span>
+                </h2>
+                <p class="text-gray-600 text-sm mt-2">※ 本估價僅供參考，實際費用請聯繫客服確認</p>
+            </div>
+
+            <!-- 聯絡資訊區塊 -->
+            <div class="mt-8 border-t pt-6">
+                <h3 class="text-lg font-medium text-gray-900 mb-4">聯絡資訊</h3>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- 聯絡姓名 -->
+                    <div class="flex flex-col">
+                        <label for="contactName" class="text-sm text-gray-600 mb-1">聯絡姓名</label>
+                        <input type="text" 
+                               id="contactName" 
+                               name="contactName"
+                               placeholder="請輸入姓名" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <!-- 聯絡電話 -->
+                    <div class="flex flex-col">
+                        <label for="contactPhone" class="text-sm text-gray-600 mb-1">聯絡電話</label>
+                        <input type="tel" 
+                               id="contactPhone" 
+                               name="contactPhone"
+                               placeholder="請輸入電話號碼" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <!-- LINE ID -->
+                    <div class="flex flex-col">
+                        <label for="contactLine" class="text-sm text-gray-600 mb-1">LINE ID</label>
+                        <input type="text" 
+                               id="contactLine" 
+                               name="contactLine"
+                               placeholder="請輸入LINE ID（選填）" 
+                               class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    </div>
+
+                    <!-- 備註欄位 - 跨兩欄 -->
+                    <div class="flex flex-col md:col-span-2">
+                        <label for="contactNote" class="text-sm text-gray-600 mb-1">備註說明</label>
+                        <textarea id="contactNote" 
+                                  name="contactNote"
+                                  placeholder="請輸入搬家時間、特殊需求等備註事項" 
+                                  rows="4"
+                                  class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 複製按鈕 -->
+            <div class="mt-6">
+                <button type="button" 
+                        id="copyButton"
+                        onclick="copyEstimate()"
+                        class="w-full bg-blue-600 text-white text-sm py-2 px-3 rounded hover:bg-blue-700 transition-colors">
+                    <span class="copy-button-content inline-flex items-center justify-center whitespace-nowrap">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                        </svg>
+                        <span class="flex-shrink-0">複製詢價資訊</span>
+                    </span>
+                </button>
+            </div>
+
+            <!-- LINE諮詢按鈕 -->
+            <div class="mt-2 mb-8">
+                <a href="https://line.me/R/ti/p/@382tpyvr?oat_content=url" 
+                   target="_blank"
+                   class="w-full bg-[#00B900] text-white py-3 px-4 rounded-md hover:bg-[#009900] transition-colors flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.121.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.572-3.843 2.572-5.992z"/>
+                    </svg>
+                    LINE 諮詢搬家細節
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- 改為使用簡單的裝飾元素 -->
+    <div class="fixed bottom-0 left-0 w-full pointer-events-none opacity-10 flex justify-between px-4 pb-4">
+        <i class="fas fa-box text-6xl"></i>
+        <i class="fas fa-dolly text-6xl"></i>
+        <i class="fas fa-box text-6xl"></i>
+    </div>
+
+    <!-- 在頁面底部添加網站資訊 -->
+    <footer class="mt-8 py-4 border-t">
+        <div class="container mx-auto px-4 text-center">
+            <div class="flex justify-center space-x-4 mb-4">
+                <a href="https://movepro.very6.tw/" class="text-blue-600 hover:text-blue-800">
+                    官方網站
+                </a>
+                <a href="https://movepro.very6.tw/blog" class="text-blue-600 hover:text-blue-800">
+                    搬家資訊
+                </a>
+                <a href="https://line.me/R/ti/p/@382tpyvr?oat_content=url" class="text-green-600 hover:text-green-800">
+                    LINE 諮詢
+                </a>
+            </div>
+            <p class="text-gray-600">樂遷搬家 - 專業搬家服務</p>
+        </div>
+    </footer>
+
+    <!-- 浮動報價區塊 -->
+    <div class="fixed bottom-20 right-4 bg-white/95 shadow-md rounded-lg p-4 max-w-[280px] border border-blue-100 z-50 backdrop-blur-sm hover:shadow-lg transition-shadow">
+        <div class="flex flex-col space-y-3">
+            <div class="border-b pb-2">
+                <div class="text-xs font-medium text-gray-500">樂遷搬家 - 預估報價</div>
+                <div id="floatingPrice" class="text-base font-bold text-blue-600">請選擇搬家分類</div>
+            </div>
+            
+            <button type="button" 
+                    id="copyButton"
+                    onclick="copyEstimate()"
+                    class="w-full bg-blue-600 text-white text-sm py-2 px-3 rounded hover:bg-blue-700 transition-colors">
+                <span class="copy-button-content inline-flex items-center justify-center whitespace-nowrap">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    <span class="flex-shrink-0">複製詢價資訊</span>
+                </span>
+            </button>
+
+            <a href="https://line.me/R/ti/p/@382tpyvr?oat_content=url" 
+               target="_blank"
+               class="w-full bg-[#00B900] text-white text-sm py-2 px-3 rounded hover:bg-[#009900] transition-colors flex items-center justify-center">
+                <svg class="w-4 h-4 mr-2" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.121.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.572-3.843 2.572-5.992z"/>
+                </svg>
+                LINE 諮詢搬家細節
+            </a>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
